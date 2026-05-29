@@ -1,7 +1,7 @@
 {
   "name": "geo-seo-pro",
   "version": "1.0.0",
-  "description": "GEO-SEO Pro — Habilidad unificada de Generative Engine Optimization y SEO tradicional para Claude Code. Cubre 128+ factores de ranking, Core Web Vitals, E-E-A-T, Schema JSON-LD, GEO/RAG basado en Princeton GEO-bench, llms.txt, configuración de crawlers IA, y seguridad anti-inyección.",
+  "description": "GEO-SEO Pro — Herramienta de análisis de posicionamiento para Google y motores de IA (ChatGPT, Perplexity, Gemini, Claude). Ejecuta mediciones reales con PageSpeed Insights API, parseo de robots.txt, validación de llms.txt, detección de JSON-LD, y scoring GEO basado en Princeton GEO-bench. Arquitectura modular con scripts Python e informes PDF en español.",
   "main": "SKILL.md",
   "keywords": [
     "claude-code",
@@ -30,7 +30,9 @@
   },
   "files": [
     "SKILL.md",
-    "install.js"
+    "install.js",
+    "skills/",
+    "scripts/"
   ],
   "bin": {
     "geo-seo-pro-install": "install.js"
