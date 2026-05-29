@@ -31,7 +31,7 @@ npx geo-seo-pro-install
 O manualmente:
 
 ```bash
-git clone https://github.com/fede/geo-seo-pro.git
+git clone https://github.com/fedeclavero/geo-seo-pro.git
 mkdir -p ~/.claude/skills/geo-seo-pro
 cp geo-seo-pro/SKILL.md ~/.claude/skills/geo-seo-pro/
 ```
