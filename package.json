@@ -1,0 +1,38 @@
+{
+  "name": "geo-seo-pro",
+  "version": "1.0.0",
+  "description": "GEO-SEO Pro — Habilidad unificada de Generative Engine Optimization y SEO tradicional para Claude Code. Cubre 128+ factores de ranking, Core Web Vitals, E-E-A-T, Schema JSON-LD, GEO/RAG basado en Princeton GEO-bench, llms.txt, configuración de crawlers IA, y seguridad anti-inyección.",
+  "main": "SKILL.md",
+  "keywords": [
+    "claude-code",
+    "skill",
+    "geo",
+    "seo",
+    "generative-engine-optimization",
+    "ai-search",
+    "llms-txt",
+    "schema-jsonld",
+    "core-web-vitals",
+    "e-e-a-t",
+    "princeton-geo",
+    "rag",
+    "robots-txt"
+  ],
+  "author": "Fede",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fede/geo-seo-pro"
+  },
+  "claude-code": {
+    "type": "skill",
+    "entry": "SKILL.md"
+  },
+  "files": [
+    "SKILL.md",
+    "scripts/install.sh"
+  ],
+  "bin": {
+    "geo-seo-pro-install": "./scripts/install.sh"
+  }
+}
