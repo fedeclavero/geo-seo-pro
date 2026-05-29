@@ -1,6 +1,6 @@
 {
   "name": "geo-seo-pro",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "GEO-SEO Pro — Herramienta de análisis de posicionamiento para Google y motores de IA (ChatGPT, Perplexity, Gemini, Claude). Ejecuta mediciones reales con PageSpeed Insights API, parseo de robots.txt, validación de llms.txt, detección de JSON-LD, y scoring GEO basado en Princeton GEO-bench. Arquitectura modular con scripts Python e informes PDF en español.",
   "main": "SKILL.md",
   "keywords": [
