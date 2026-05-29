@@ -30,9 +30,9 @@
   },
   "files": [
     "SKILL.md",
-    "scripts/install.js"
+    "install.js"
   ],
   "bin": {
-    "geo-seo-pro-install": "./scripts/install.js"
+    "geo-seo-pro-install": "install.js"
   }
 }
