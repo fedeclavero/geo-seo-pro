@@ -273,3 +273,266 @@ Las técnicas destinadas a manipular artificialmente las directrices de los moto
 | 128 | **Enlaces Masivos en Pie de Página** | Enlaces repetitivos colocados masivamente en zonas bajas del HTML. | Google comprime este patrón de manipulación estructural de PageRank y puede devaluar autoridad interna del dominio. |
 
 **Protocolo de Auditoría SEO:** Para `/geo-seo-pro seo-factors <url>`, ejecutar checklist de los 128 factores marcando ✅ (cumple), ⚠️ (mejorable), ❌ (no cumple), N/A (no aplica). Priorizar correcciones por nivel de impacto y factibilidad.
+
+---
+
+## PARTE 2: CORE WEB VITALS — ESTÁNDARES TÉCNICOS Y RANGOS DE RENDIMIENTO
+
+Los Core Web Vitals representan la telemetría oficial de Google para evaluar la calidad técnica de la interacción de usuarios en tiempo real. Se recopilan datos reales a través de Chrome User Experience Report (CrUX) para clasificar cada URL en tres estadios de rendimiento. Un sitio que resuelva la intención de búsqueda con contenido excelente pero que presente diseño lento, inestable o con retrasos interactivos experimentará un rezago progresivo en las clasificaciones.
+
+### 2.1 Métricas y Rangos
+
+| Métrica | Dimensión Evaluada | Rango Óptimo (Bueno) | Rango de Advertencia | Rango Crítico (Pobre) |
+|---------|-------------------|----------------------|----------------------|------------------------|
+| **LCP** (Largest Contentful Paint) | Velocidad de carga percibida. Tiempo para visualizar el elemento más grande de la pantalla. | ≤ 2.5s | 2.5s - 4.0s | > 4.0s |
+| **INP** (Interaction to Next Paint) | Capacidad de respuesta interactiva. Retardo total antes de que el navegador actualice la pantalla tras una acción táctil o clic. | ≤ 200ms | 200ms - 500ms | > 500ms |
+| **CLS** (Cumulative Layout Shift) | Estabilidad visual del diseño. Cuantifica movimientos inesperados de elementos durante el renderizado. | ≤ 0.1 | 0.1 - 0.25 | > 0.25 |
+
+### 2.2 Fórmula CLS
+
+El CLS se procesa matemáticamente evaluando el impacto del movimiento de elementos en el viewport:
+
+```
+CLS = Σ (Fracción de Impacto × Fracción de Distancia)
+
+Fracción de Impacto = superficie del viewport que experimenta cambio posicional
+Fracción de Distancia = longitud máxima desplazada / dimensión más grande del viewport
+```
+
+### 2.3 Optimización Técnica Quirúrgica
+
+**Optimización del LCP:**
+- Comprimir y redimensionar estrictamente todas las imágenes principales, priorizando formatos modernos (AVIF, WebP).
+- Configurar CDN con almacenamiento en caché perimetral.
+- Precargar la imagen destacada (hero image) en cabecera HTML: `<link rel="preload" as="image" href="hero.webp">`.
+- Eliminar CSS o JS que bloquee el renderizado inicial.
+- Asegurar tiempo de respuesta de servidor rápido (TTFB < 800ms).
+
+**Optimización del INP:**
+- Aligerar el hilo principal del navegador difiriendo scripts secundarios que no participen en el pintado inicial.
+- Trocear tareas largas de JavaScript mediante técnicas de planificación de frames.
+- Priorizar procesamiento interactivo mediante `requestIdleCallback`.
+- Optimizar ejecución de controladores de eventos de botones y formularios.
+- Minimizar llamadas repetitivas de telemetría o analíticas externas durante los instantes iniciales de navegación.
+
+**Optimización del CLS:**
+- Declarar explícitamente dimensiones geométricas (width y height) en el HTML de TODAS las imágenes, vídeos y banners publicitarios dinámicos.
+- Reservar espacio para embeds (iframes, videos) antes de su carga.
+- Usar `font-display: swap` para evitar FOIT (Flash of Invisible Text).
+- Evitar insertar contenido dinámico sobre contenido existente sin interacción del usuario.
+- Predefinir dimensiones de contenedores de anuncios.
+
+### 2.4 Protocolo de Diagnóstico
+
+Para `/geo-seo-pro core-web-vitals <url>`:
+1. Obtener métricas de campo reales vía PageSpeed Insights API
+2. Ejecutar Lighthouse audit para diagnóstico de laboratorio
+3. Verificar informe CrUX si está disponible
+4. Identificar elementos específicos que causan puntuación subóptima
+5. Proporcionar recomendaciones quirúrgicas con código específico
+6. Asignar puntuación Core Web Vitals: Bueno (90-100), Necesita Mejora (50-89), Pobre (0-49)
+
+---
+
+## PARTE 3: E-E-A-T Y SISTEMA DE CONTENIDO ÚTIL
+
+Google prioriza de manera sistemática los contenidos que demuestran claro rigor humano y profesional en su concepción, devaluando páginas con sesgo manipulativo centrado exclusivamente en posicionar para algoritmos de búsqueda.
+
+### 3.1 El Ecosistema de Validación E-E-A-T
+
+E-E-A-T representa el marco analítico que define la legitimidad de un creador de contenido y de la web donde publica:
+
+| Dimensión | Definición | Cómo Demostrarlo |
+|-----------|------------|------------------|
+| **Experiencia (Experience)** | Evidencia de conocimiento real de primera mano y contacto directo con la temática. | Fotos originales de proyectos propios, anécdotas vividas, análisis de pruebas empíricas ejecutadas personalmente. |
+| **Expertise (Experiencia Técnica)** | Credenciales de formación formal, certificaciones reconocidas o bagaje técnico contrastado del firmante. | Publicar credenciales verificables, certificaciones, enlaces a publicaciones académicas o técnicas previas. |
+| **Authoritativeness (Autoridad)** | Grado de liderazgo y reputación del autor y la empresa en su sector digital. | Ser citado por otras organizaciones destacadas del área como fuente técnica de consulta recurrente. |
+| **Trustworthiness (Confianza)** | El núcleo transversal del modelo de calidad. Incluye seguridad técnica, transparencia y honestidad factual. | HTTPS, transparencia sobre quién escribe, acceso claro a soporte, datos factuales verificables, políticas legales visibles. |
+
+### 3.2 El Sistema de Contenido Útil (Helpful Content System)
+
+El Helpful Content System es un algoritmo que evalúa la calidad general del dominio completo para clasificarlo como "útil para humanos" o "creado para buscadores". El agente debe aplicar un protocolo de autoevaluación continua basado en tres ejes analíticos críticos:
+
+```
+                    EVALUACIÓN DE CONTENIDO ÚTIL
+                              │
+         ┌────────────────────┼────────────────────┐
+         ▼                    ▼                    ▼
+   ¿QUIÉN CREÓ?         ¿CÓMO SE CREÓ?        ¿POR QUÉ CREÓ?
+(Acreditación Humana)  (Garantía Técnica)   (Propósito de Valor)
+         │                    │                    │
+ • Firmas de autor     • IA declarada      • Resuelve intención
+   claras                con valor           de búsqueda real
+ • Biografías          • Fuentes citadas   • Evita clickbait
+   enlazadas             y fiables           vacío
+ • Perfiles sociales   • Datos originales  • Aporta valor
+   vinculados            demostrados         duradero
+```
+
+**¿Quién creó el contenido?** Exige transparencia total en la firma de cada página. Los posts deben incluir "bylines" o bloques de autoría legibles que enlacen a biografías de perfiles donde se expongan con total honestidad estudios, experiencia y por qué son competentes para desarrollar la temática.
+
+**¿Cómo se creó el contenido?** Demanda declarar con honestidad los procesos técnicos detrás del texto. Si se empleó inteligencia artificial para redactar borradores o compilar datos, esto debe ser evidente para el visitante a través de avisos de transparencia. Se debe acreditar la veracidad de los datos citando de forma inequívoca las fuentes primarias y adjuntando pruebas de contraste empírico.
+
+**¿Por qué se creó el contenido?** Determina que el post tiene como único fin aportar valor a las personas de forma duradera. Se debe evitar la redacción masiva de contenidos sobre temas de tendencia inconexos con la temática habitual del negocio, con el único fin de capturar tráfico residual en búsquedas orgánicas. El visitante debe terminar la lectura sintiendo que ha completado con éxito su tarea sin requerir una nueva búsqueda.
+
+### 3.3 Protocolo de Evaluación E-E-A-T
+
+Para `/geo-seo-pro e-e-a-t <url>`:
+1. Verificar presencia de autoría (bylines, biografías enlazadas, perfiles sociales)
+2. Evaluar credenciales del autor contrastables (formación, certificaciones)
+3. Analizar transparencia sobre uso de IA en la creación
+4. Verificar citación de fuentes primarias en afirmaciones clave
+5. Comprobar señales de experiencia de primera mano (fotos, datos propios, casos reales)
+6. Revisar seguridad del sitio (HTTPS, páginas legales, contacto)
+7. Detectar posible contenido masivo solo para SEO (temas inconexos, sin valor real)
+8. Asignar puntuación E-E-A-T: Excelente (90-100), Bueno (70-89), Adecuado (50-69), Pobre (30-49), Crítico (0-29)
+
+---
+
+## PARTE 4: SCHEMA JSON-LD PARA BÚSQUEDAS TRADICIONALES Y MODELOS DE IA
+
+La inyección de código estructurado JSON-LD en el backend del sitio permite que tanto los motores tradicionales como los modelos generativos de IA decodifiquen y entiendan con total precisión el significado conceptual detrás de cada elemento textual del portal.
+
+### 4.1 Esquemas Clave de Alto Rendimiento
+
+| Esquema JSON-LD | Caso de Uso | Directrices Técnicas Obligatorias |
+|-----------------|-------------|-----------------------------------|
+| **BlogPosting / Article** | Define el post principal, identificando al autor y fechas exactas de edición. | Incluir `mainEntityOfPage`, `author`, `publisher`, `datePublished`, `dateModified` y recurso gráfico de portada (`image`). |
+| **FAQPage** | Estructura bloques de preguntas y respuestas cortas para recuperación conversacional por IAs. | Las preguntas y respuestas del JSON-LD deben guardar total coincidencia textual con los bloques visibles para el usuario. |
+| **HowTo** | Detalla guías y tutoriales resueltos paso a paso con herramientas y duraciones. | Reservar exclusivamente para explicaciones secuenciales de carácter práctico. Evitar en posts analíticos generales. |
+| **Organization** | Certifica la identidad fiscal o corporativa del negocio titular de la página. | Integrar en la home principal. Usar `sameAs` para enlazar perfiles verificados de redes sociales y directorios oficiales. |
+| **Person** | Identifica credenciales profesionales, formación y perfiles del autor de forma rastreable. | Utilizar enlaces externos en `sameAs` para certificar experiencia técnica y potenciar E-E-A-T. |
+| **Product** | Permite inyectar precios, stocks y variaciones comerciales en las búsquedas. | Mantener actualizados valores económicos y opiniones reales. Inhabilitar comentarios manipulados o falsificados. |
+| **LocalBusiness** | Posiciona el negocio físico en área geográfica determinada en búsquedas locales. | Declarar dirección física precisa, teléfono y datos que coincidan milimétricamente con Google Business Profile. |
+
+### 4.2 Ejemplo Canónico: BlogPosting con sameAs
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tusitio.com/posicionamiento-geo"
+  },
+  "headline": "Guía de Optimización GEO para Inteligencia Artificial",
+  "image": "https://tusitio.com/images/geo-guide.jpg",
+  "datePublished": "2026-01-15T08:00:00+01:00",
+  "dateModified": "2026-05-20T10:30:00+02:00",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Carlos Mendoza",
+    "url": "https://tusitio.com/autores/carlos-mendoza",
+    "sameAs": "https://www.linkedin.com/in/carlos-mendoza-phd"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Agencia GEO Global",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://tusitio.com/logo.png"
+    }
+  }
+}
+```
+
+La propiedad `sameAs` dentro de los esquemas `Person` u `Organization` conecta la marca o autor con perfiles públicos de autoridad de terceros (Wikipedia, LinkedIn, bases de datos académicas), dotando de una señal contundente de autenticidad y consolidando su posición dentro del Grafo de Conocimiento del motor de búsqueda.
+
+### 4.3 Esquemas de Bajo Impacto y Riesgos de Sobreoptimización
+
+| Esquema | Evaluación |
+|---------|------------|
+| **BreadcrumbList** | Asiste en visualización de rutas lógicas en resultados tradicionales, pero resulta **irrelevante para modelos de IA generativos**, que ignoran estas estructuras posicionales. |
+| **Event** | Cuenta con rápida caducidad de calendario que resta influencia en recuperación semántica de posts evergreen. |
+| **Sitelinks Search Box** | Responde a integraciones de diseño para SERPs clásicas que no intervienen en procesamiento moderno de sistemas de IA generativa. |
+| **Speakable** | Diseñado para interfaces de audio antiguas, sin relevancia para IA conversacional moderna. |
+
+**⚠️ Riesgo Crítico de Solapamiento:** Intentar forzar la inyección de múltiples marcados incompatibles como prioritarios en una misma URL (ej. saturar un blog con FAQPage + HowTo + Product) **destruye la claridad conceptual del documento**. Confunde los filtros automáticos y diluye el impacto semántico. **Regla de oro:** Aplicar exclusivamente UN único marcado primario por URL y subordinar los esquemas secundarios como dependencias lógicas.
+
+### 4.4 Protocolo de Auditoría Schema
+
+Para `/geo-seo-pro schema <url>`:
+1. Detectar todos los esquemas JSON-LD presentes en la página
+2. Validar contra especificación Schema.org (Rich Results Test)
+3. Verificar campos obligatorios por tipo de esquema
+4. Evaluar uso de `sameAs` en Organization y Person
+5. Detectar solapamientos y conflictos entre esquemas
+6. Identificar esquemas faltantes según tipo de negocio
+7. Generar JSON-LD corregido o nuevo
+8. Asignar puntuación Schema: Completo (90-100), Mayormente Completo (70-89), Parcial (50-69), Mínimo (30-49), Ausente (0-29)
+
+---
+
+## PARTE 5: GEO — GENERATIVE ENGINE OPTIMIZATION Y ARQUITECTURA RAG
+
+La consolidación masiva de herramientas conversacionales (ChatGPT Search, Perplexity, Gemini, Claude, Google AI Overviews) está propiciando un cambio drástico en los patrones de comportamiento digital. El posicionamiento tradicional enfocado en clics a URLs está convergiendo hacia el modelo de Generative Engine Optimization (GEO): posicionar de manera prioritaria la marca dentro de la respuesta resumida que redacta la IA de forma conversacional.
+
+### 5.1 Diferencias Fundamentales: AEO vs GEO
+
+| Dimensión | Answer Engine Optimization (AEO) | Generative Engine Optimization (GEO) |
+|-----------|----------------------------------|--------------------------------------|
+| **Plataformas** | Asistentes de voz tradicionales (Alexa, Siri, Google Assistant). | LLMs y buscadores con IA (ChatGPT, Perplexity, Gemini, Claude). |
+| **Longitud de Consulta** | Consultas orales breves y directas (promedio 4 palabras). | Búsquedas conversacionales ricas en contexto (promedio 23 palabras). |
+| **Estructuración** | Formatos muy fijos de Q&A (pregunta/respuesta directa). | Cobertura en profundidad y diversidad de formatos lógicos orientados a síntesis. |
+| **Comportamiento Usuario** | Interacciones de "cero clics": el usuario escucha y finaliza la sesión. | El usuario visualiza la respuesta del LLM y hace clic en las citas de fuente adjuntas (alto CTR). |
+
+### 5.2 Arquitectura RAG de 3 Capas
+
+Los motores de búsqueda de IA operan internamente sobre una arquitectura estructurada de Generación Aumentada por Recuperación (RAG). Al recibir una consulta conversacional, el motor despliega un proceso técnico de tres capas secuenciales:
+
+```
+                     FLUJO INTERNO DE BÚSQUEDA RAG
+                                  │
+                                  ▼
+┌──────────────────────────────────────────────────────────────────┐
+│ CAPA 1: BÚSQUEDA SEMÁNTICA (RETRIEVAL)                          │
+│ • El motor de IA escanea bases de datos vectoriales y webs       │
+│ • Recupera un grupo selecto de documentos candidatos relevantes  │
+├──────────────────────────────────────────────────────────────────┤
+│ CAPA 2: COMPRENSIÓN Y FILTRADO DEL LLM                           │
+│ • El modelo procesa y lee las estructuras de los textos origen   │
+│ • Evalúa la veracidad, autoridad y rigor factual del contenido   │
+├──────────────────────────────────────────────────────────────────┤
+│ CAPA 3: SÍNTESIS, COMPRENSIÓN Y SINOPSIS                         │
+│ • Se redacta la respuesta final en lenguaje natural conversacional│
+│ • El modelo decide qué portales citar oficialmente con hiperlinks│
+└──────────────────────────────────────────────────────────────────┘
+```
+
+**Principio clave:** El motor de IA prefiere extraer información de páginas que presentan una estructura de datos clara y lógica, lo que facilita mapear el contenido en forma de grafo conceptual y representarlo espacialmente en sus bases de datos vectoriales para ser recuperado sin fricciones durante las búsquedas.
+
+---
+
+## PARTE 6: PRINCETON GEO-BENCH — EL ESTUDIO CIENTÍFICO FUNDACIONAL
+
+Estudio académico publicado en KDD 2024 por Princeton University, Georgia Tech, Allen Institute for AI e IIT Delhi. Analizó por primera vez qué cambios de contenido incrementan de forma real la visibilidad en respuestas con IA. Benchmark: **GEO-bench**, evaluando **10,000 consultas** en 8-9 conjuntos de datos temáticos.
+
+### 6.1 Métricas de Medición Científica
+
+| Métrica | Definición |
+|---------|------------|
+| **Position-Adjusted Word Count** | Puntuación que pondera el número total de términos extraídos del sitio que aparecen en la respuesta del LLM, asignando peso superior a palabras en secciones de apertura o más visibles de la respuesta. |
+| **Subjective Impression** | Escala cualitativa que mide qué tan destacado, confiable y con qué nivel de autoridad visual se proyecta el portal ante el usuario dentro de la respuesta generada. |
+
+### 6.2 Las 5 Estrategias GANADORAS (Resultados Empíricos)
+
+| # | Estrategia | Incremento | Mecanismo |
+|---|-----------|------------|-----------|
+| 1 | **Citar Fuentes (Cite Sources)** | **+40%** | Integrar enlaces salientes de calidad y referencias explícitas a estudios de autoridad. Los LLMs confían de forma nativa en afirmaciones con claro respaldo documental a nivel de párrafo. |
+| 2 | **Adición de Datos Estadísticos (Statistics Addition)** | **+40%** | Sustituir descripciones genéricas por datos cuantitativos exactos. La combinación ganadora máxima: **dato estadístico preciso + mención de la fuente de origen + año de recolección**. |
+| 3 | **Adición de Citas de Expertos (Quotation Addition)** | **+35%** | Insertar declaraciones directas atribuidas con nombre, apellido y cargo a referentes sectoriales reconocidos. Los LLMs extraen prioritariamente estos fragmentos como evidencias factuales. |
+| 4 | **Optimización de Fluidez (Fluency Optimization)** | **+30%** | Mejorar la coherencia sintáctica del texto, eliminando palabras innecesarias y estructurando de manera fluida el paso de las ideas. Facilita que la IA procese y reformule sin diluir el sentido original. |
+| 5 | **Tono de Autoridad (Authoritative Voice)** | **+25%** | Adoptar un tono narrativo firme, directo y seguro de la información, descartando expresiones de vacilación lingüística. |
+
+### 6.3 Las 4 Tácticas FALLIDAS
+
+| # | Táctica | Resultado | Por Qué Fracasa |
+|---|---------|-----------|-----------------|
+| 1 | **Keyword Stuffing** | ❌ Impacto negativo | Forzar repetición artificial de términos por encima del 2% de densidad dañó la coherencia del contenido. Fracaso más severo del estudio en validación real con Perplexity. |
+| 2 | **Simplificación Extrema (Easy-to-Understand)** | ❌ Devalúa | Reescribir textos rebajando excesivamente el vocabulario eliminó riqueza semántica y jerga especializada que los LLMs asocian con fuentes de verdadera experiencia. |
+| 3 | **Relleno de Contenido (Content Padding)** | ❌ Impacto nulo | Escribir párrafos vacíos para aumentar artificialmente el recuento de palabras. Los algoritmos de síntesis resumen el texto, descartando la paja informativa. |
+| 4 | **Lenguaje Persuasivo Puro** | ❌ Sin beneficio | Incorporar adjetivos subjetivos de carácter promocional no reportó beneficio frente al análisis factual objetivo que ejecutan los LLMs. |
+
+### 6.4 El Efecto Underdog (Descubrimiento Clave)
+
+**Los portales con menor autoridad técnica tradicional (bajo PageRank, pocos backlinks) son los que reciben el MAYOR beneficio de visibilidad proporcional en GEO al desplegar estas estrategias.** Al basarse la arquitectura RAG en la recuperación semántica de datos a nivel de fragmento, un portal modesto pero que incorpore datos estadísticos impecables, citas directas y referencias rigurosas puede **superar a marcas históricas y monopolizar el espacio de cita destacada en las respuestas de la IA**. Esto representa una ventana de oportunidad sin precedentes para sitios pequeños y medianos.
