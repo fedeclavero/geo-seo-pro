@@ -536,3 +536,318 @@ Estudio académico publicado en KDD 2024 por Princeton University, Georgia Tech,
 ### 6.4 El Efecto Underdog (Descubrimiento Clave)
 
 **Los portales con menor autoridad técnica tradicional (bajo PageRank, pocos backlinks) son los que reciben el MAYOR beneficio de visibilidad proporcional en GEO al desplegar estas estrategias.** Al basarse la arquitectura RAG en la recuperación semántica de datos a nivel de fragmento, un portal modesto pero que incorpore datos estadísticos impecables, citas directas y referencias rigurosas puede **superar a marcas históricas y monopolizar el espacio de cita destacada en las respuestas de la IA**. Esto representa una ventana de oportunidad sin precedentes para sitios pequeños y medianos.
+
+---
+
+## PARTE 7: ESTÁNDAR llms.txt Y llms-full.txt
+
+Los archivos `llms.txt` y `llms-full.txt` constituyen un nuevo estándar técnico diseñado para estructurar y optimizar cómo los agentes inteligentes autónomos, herramientas de desarrollo (Cursor, GitHub Copilot) y rastreadores automáticos consumen la información de un sitio web. Se sirven en formato Markdown texto plano en el directorio raíz del servidor.
+
+### 7.1 Comparativa: llms.txt vs llms-full.txt
+
+| Parámetro | llms.txt | llms-full.txt |
+|-----------|----------|---------------|
+| **Propósito** | Mapa semántico ordenado y resumido de la arquitectura del sitio. | Totalidad del contenido y documentación textual concatenado en una única interfaz. |
+| **Estructura** | Listado de enlaces lógicos acompañados de una frase de descripción semántica. | Unificación de la documentación íntegra del sitio, incluyendo especificaciones de APIs. |
+| **Tokens** | Sumamente ligero (< 5,000 tokens en la mayoría de webs). | Mayor huella; se recomienda < 50,000 tokens. |
+| **Casos de Uso** | Portales corporativos, blogs amplios, índices de documentación. | Bibliotecas de código, referencias completas de APIs, documentación técnica profunda. |
+
+### 7.2 Sintaxis y Requisitos de Markdown
+
+Para que la interfaz semántica sea procesada de forma óptima, debe respetar estrictamente las reglas de sintaxis Markdown:
+
+1. **Título Principal (H1):** Elemento de apertura obligatorio en la primera línea, detallando exactamente el nombre del proyecto o empresa.
+   ```markdown
+   # Nombre del Proyecto
+   ```
+
+2. **Resumen Informativo (Blockquote):** Bloque de cita inmediatamente después del título, 1-3 líneas explicando qué cubre la web.
+   ```markdown
+   > Somos una agencia de marketing digital especializada en SEO y GEO para empresas B2B.
+   ```
+
+3. **Secciones Lógicas (H2):** Clasifican y dividen los temas principales de la web para orientar el rastreo de la IA.
+   ```markdown
+   ## Servicios
+   ## Blog
+   ## Documentación
+   ```
+
+4. **Enlaces Anotados:** Listado de enlaces Markdown estructurados. Los enlaces deben apuntar a versiones de texto plano o Markdown (.md) de cada sección. Cada link incluye una descripción concisa sin adjetivos comerciales, extraída de metadatos o frontmatter. Longitud máxima recomendada: **300 caracteres**.
+   ```markdown
+   - [Guía de SEO Técnico](https://tusitio.com/blog/seo-tecnico.md): Fundamentos de rastreo, indexación y arquitectura web para optimización técnica.
+   - [Estrategia GEO 2026](https://tusitio.com/blog/geo-2026.md): Estrategias de Generative Engine Optimization basadas en el estudio Princeton GEO-bench.
+   ```
+
+### 7.3 Integración en Servidores y HTTP Headers
+
+**HTTP Link Header:**
+```
+Link: <https://tusitio.com/llms.txt>; rel="llms-txt", <https://tusitio.com/llms-full.txt>; rel="llms-full-txt"
+```
+
+**X-Llms-Txt Header (conveniencia):**
+```
+X-Llms-Txt: /llms.txt
+```
+
+**Compatibilidad .well-known:** Además de hospedar en raíz `/llms.txt`, habilitar una redirección o clon en la ruta `/.well-known/llms.txt` para asegurar compatibilidad con herramientas que operan bajo este estándar.
+
+### 7.4 Configuración del robots.txt para IA
+
+Los archivos `llms.txt` **no poseen funciones de bloqueo ni directivas de seguridad** para denegar el paso de robots. El acceso legítimo debe gobernarse desde `/robots.txt`. Es imperativo estructurar los permisos de manera proactiva:
+
+```robots.txt
+User-agent: *
+Allow: /
+
+# Autorizar rastreadores de IA
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+# Declarar llms.txt como sitemap complementario
+Sitemap: https://tusitio.com/sitemap.xml
+Sitemap: https://tusitio.com/llms.txt
+```
+
+Al declarar `llms.txt` como un mapa complementario en la base de `robots.txt`, se guía directamente a los crawlers para que asimilen la arquitectura semántica del sitio antes de procesar el código HTML complejo.
+
+### 7.5 Protocolos de Seguridad y Prevención de Inyección de Prompts
+
+El despliegue de una interfaz semántica estructurada expone la arquitectura de información del sitio a procesos de toma de decisiones autónomos de IAs. Esto plantea desafíos críticos de seguridad:
+
+**⚠️ Riesgo de Inyección Indirecta de Prompts:** Si un atacante externo logra comprometer la seguridad del servidor y modificar maliciosamente las descripciones textuales de los enlaces en `llms.txt`, podría inyectar secuencias de comandos de manipulación semántica. Al leer este archivo, los agentes autónomos (asistentes de código, chats inteligentes) podrían verse forzados a saltarse sus directrices de seguridad, descargar software malicioso o filtrar información privada.
+
+**Gobernanza mediante CI/CD:** Queda **terminantemente prohibida** la edición o mantenimiento manual de los archivos `llms.txt` en entornos de producción. Se debe configurar un proceso automatizado dentro del pipeline de despliegue que genere de manera estática los archivos `llms.txt` y `llms-full.txt` como artefactos de compilación limpios del código fuente de documentación verificada.
+
+**Autenticación de Acceso:** Si el sitio requiere controles de acceso o credenciales para ciertas secciones de documentación, las rutas correspondientes en `llms.txt` y `llms-full.txt` deben configurarse bajo el mismo esquema de cifrado y autenticación de seguridad de APIs para evitar fugas masivas de datos confidenciales a rastreadores de terceros.
+
+**Monitorización de Integridad:** Es mandatorio implementar sistemas de detección de cambios de archivos en tiempo real en la raíz del servidor web, alertando al instante ante cualquier modificación de la firma criptográfica (hash MD5/SHA256) del archivo `llms.txt` ajena a los despliegues autorizados.
+
+### 7.6 Protocolo de Auditoría llms.txt
+
+Para `/geo-seo-pro llmstxt <url>`:
+1. Verificar presencia de `https://domain.com/llms.txt` y `llms-full.txt`
+2. Validar formato contra especificación (H1, blockquote, H2, enlaces anotados)
+3. Evaluar completitud (cobertura de secciones clave del sitio)
+4. Verificar HTTP Link Headers y X-Llms-Txt
+5. Comprobar ruta `/.well-known/llms.txt`
+6. Revisar configuración robots.txt para crawlers IA
+7. Si no existe, generar llms.txt completo basado en la estructura del sitio
+8. Incluir advertencias de seguridad (CI/CD, hash, autenticación)
+
+---
+
+## PARTE 8: MATRIZ DE INTEGRACIÓN SISTÉMICA Y PROTOCOLOS DE EJECUCIÓN
+
+La optimización moderna de activos digitales exige trascender de las metodologías aisladas hacia una arquitectura híbrida unificada. Los parámetros que tradicionalmente han impulsado la autoridad orgánica ante Google actúan hoy como la zapata de confianza técnica indispensable sobre la cual operan los motores de respuestas generativos de IA. Un sitio web técnicamente inestable o sin validación de autoridad humana (E-E-A-T) quedará fuera del radar de indexación de los modelos semánticos de forma fulminante.
+
+### 8.1 Matriz de Integración SEO + GEO
+
+```
+                 ACCIONES DE ENFOQUE SEO                    ACCIONES DE ENFOQUE GEO
+┌──────────────────────────────────────┐    ┌──────────────────────────────────────┐
+│ • Core Web Vitals optimizados:       │    │ • Interfaces semánticas:             │
+│   LCP < 2.5s, INP < 200ms,          │    │   Generación e integración de        │
+│   CLS < 0.1                          │    │   llms.txt + llms-full.txt           │
+│ • Marcado estructural sin errores:   │    │ • Despliegue de pautas RAG:          │
+│   BlogPosting, FAQ, Organization     │    │   Citas, datos estadísticos,         │
+│ • Directrices cualitativas:          │    │   citas de expertos                  │
+│   Rigor en Who/How/Why y E-E-A-T    │    │ • Sincronización de entidades:       │
+│                                      │    │   sameAs apuntando a Wikipedia,      │
+│                                      │    │   LinkedIn, Wikidata                  │
+└──────────────────────────────────────┘    └──────────────────────────────────────┘
+```
+
+**Sincronización del Rendimiento Técnico y UX:** Resolver deficiencias críticas de velocidad y usabilidad web mediante cumplimiento estricto de Core Web Vitals. Garantizar que la navegación móvil sea impecable y que la página se encuentre libre de interstitials de cookies invasivos. Esto asegura retención de usuarios y facilita el rastreo profundo de bots tradicionales y agentes de IA.
+
+**Arquitectura Semántica de Datos:** Desplegar ecosistema estructurado mediante marcado JSON-LD libre de solapamientos técnicos. Consolidar propiedades de marca y perfiles de autores mediante la inyección del atributo `sameAs` permite que las IAs verifiquen la autenticidad e incorporen de manera confiable al dominio dentro de sus grafos de conocimiento sectoriales.
+
+**Optimización del Contenido Basada en Evidencias (RAG):** Integrar en cada artículo de blog y página de servicio las directrices ganadoras del estudio Princeton. Dotar al texto de rigor científico sustituyendo descripciones genéricas por porcentajes y datos medibles precisos (emparejados con su fuente de origen y año), incorporar declaraciones textuales firmadas por expertos reales del sector y citar referencias salientes fiables para respaldar cada afirmación.
+
+**Habilitación de Interfaces para Agentes Autónomos:** Desplegar obligatoriamente los archivos estáticos de Markdown `llms.txt` y `llms-full.txt` en el directorio raíz del servidor, automatizando su generación a través de pipelines de integración continua para neutralizar riesgos de inyección indirecta de comandos. Configurar el archivo `robots.txt` para autorizar explícitamente el paso de los bots de IA (OpenAI, Anthropic, Perplexity, Google) y utilizar encabezados HTTP para facilitar la autodetectabilidad del índice semántico.
+
+### 8.2 Metodología de Scoring Compuesto GEO-SEO Pro (0-100)
+
+| Categoría | Peso | Sub-componentes |
+|-----------|------|-----------------|
+| **Fundamentos SEO Tradicional** | 20% | 128 factores en 8 categorías: dominio, contenido, técnicos, sitio, backlinks, usuario, reglas algoritmo, webspam |
+| **Core Web Vitals** | 10% | LCP (40%), INP (35%), CLS (25%) |
+| **E-E-A-T y Helpful Content** | 20% | Experience (25%), Expertise (25%), Authoritativeness (20%), Trustworthiness (30%) |
+| **GEO — Citabilidad y Princeton** | 25% | Citas fuentes (25%), Datos estadísticos (25%), Citas expertos (20%), Fluidez (15%), Tono autoridad (15%) |
+| **Schema JSON-LD** | 10% | Completitud (60%), Validación (20%), sameAs (20%) |
+| **llms.txt y Crawlers IA** | 10% | llms.txt (50%), llms-full.txt (25%), robots.txt IA (25%) |
+| **Autoridad de Dominio** | 5% | Backlinks calidad, Diversidad enlaces, TrustRank |
+
+**Bandas de Puntuación:**
+- **90-100: Excelencia GEO-SEO** — Visible para buscadores tradicionales y todos los motores de IA. Listo para dominar.
+- **75-89: Avanzado** — Sólido en la mayoría de áreas. Ajustes específicos necesarios para alcanzar la excelencia.
+- **60-74: Intermedio** — Presente pero con gaps significativos. Requiere plan de acción estructurado.
+- **40-59: Básico** — Visibilidad limitada. Necesita intervención en múltiples frentes.
+- **0-39: Crítico** — Invisible para IAs. Requiere reconstrucción fundamental.
+
+### 8.3 Protocolo de Auditoría Completa (`/geo-seo-pro audit <url>`)
+
+**Fase 1 — Discovery (Secuencial):**
+1. Fetch homepage HTML (curl o WebFetch)
+2. Detectar tipo de negocio (SaaS, Local, E-commerce, Publisher, Agency, Other)
+3. Extraer páginas clave de sitemap.xml o enlaces internos (hasta 50 páginas)
+4. Identificar competidores principales para benchmarking
+
+**Fase 2 — Análisis Multidimensional (Ejecutar en Paralelo):**
+
+| Dimensión | Responsabilidad | Output |
+|-----------|----------------|--------|
+| SEO Tradicional | Checklist 128 factores, priorizando por tipo de negocio | SEO Score + Top 10 Issues |
+| Core Web Vitals | Obtener métricas CrUX/PSI, analizar elementos problemáticos | CWV Score + Recomendaciones |
+| E-E-A-T | Evaluar autoría, credenciales, transparencia, fuentes | E-E-A-T Score + Gaps |
+| Schema JSON-LD | Detectar, validar, evaluar sameAs y solapamientos | Schema Score + JSON-LD generado |
+| GEO (Princeton) | Evaluar contenido contra 5 estrategias ganadoras y 4 fallidas | GEO Score + Recomendaciones |
+| llms.txt + Crawlers | Verificar/analizar/generar llms.txt, auditar robots.txt IA | llms.txt Score + Configuración |
+| Autoridad | Verificar backlinks (.edu/.gov, diversidad, velocidad) | Authority Score |
+
+**Fase 3 — Síntesis:**
+1. Consolidar todos los scores dimensionales
+2. Calcular GEO-SEO Pro Score compuesto (promedio ponderado según 8.2)
+3. Identificar top 10 issues críticos
+4. Priorizar por impacto × factibilidad
+
+**Fase 4 — Informe:**
+1. Generar informe markdown estructurado con todas las secciones
+2. Incluir gráficos ASCII de scores
+3. Generar plan de acción priorizado: Quick Wins (1-7 días), Medium-Term (1-4 semanas), Strategic (1-6 meses)
+4. Incluir snippets de código para implementación directa
+
+### 8.4 Protocolos de Ejecución por Comando
+
+**`/geo-seo-pro seo-factors <url>`:**
+1. Obtener homepage HTML
+2. Ejecutar checklist de 128 factores — marcar ✅ ⚠️ ❌ N/A
+3. Agrupar hallazgos por categoría
+4. Priorizar: críticos (afectan indexación), altos (afectan ranking), medios (optimización), bajos (refinamiento)
+5. Output: tabla de cumplimiento + top acciones priorizadas
+
+**`/geo-seo-pro core-web-vitals <url>`:**
+1. Ejecutar PageSpeed Insights API (si está disponible) o simular diagnóstico
+2. Evaluar cada métrica contra rangos óptimo/advertencia/crítico
+3. Identificar elementos específicos degradando cada métrica
+4. Proporcionar correcciones con código específico (HTML/CSS/JS)
+5. Output: score CWV + diagnóstico element-by-element + código de fix
+
+**`/geo-seo-pro e-e-a-t <url>`:**
+1. Inspeccionar página en busca de: autoría (bylines), biografías, credenciales, fuentes citadas
+2. Evaluar señales de transparencia (declaración de uso de IA, fuentes primarias)
+3. Verificar seguridad (HTTPS, políticas legales)
+4. Analizar si el contenido aporta valor único o es contenido masivo para SEO
+5. Output: score E-E-A-T por dimensión + gaps + recomendaciones
+
+**`/geo-seo-pro schema <url>`:**
+1. Extraer y validar todos los bloques JSON-LD presentes
+2. Verificar campos obligatorios según tipo de esquema
+3. Evaluar uso de sameAs en Organization y Person
+4. Detectar conflictos de solapamiento
+5. Generar JSON-LD corregido o nuevo
+6. Output: inventario de schemas + validación + JSON-LD listo para implementar
+
+**`/geo-seo-pro geo <url>`:**
+1. Extraer bloques de contenido textual
+2. Evaluar cada bloque contra las 5 estrategias Princeton ganadoras
+3. Detectar presencia de las 4 tácticas fallidas
+4. Calcular GEO Score por bloque y página
+5. Aplicar principio Underdog: si el sitio tiene baja autoridad SEO, enfatizar oportunidad de visibilidad desproporcionada
+6. Recomendar mejoras específicas párrafo por párrafo
+7. Output: GEO Score + análisis táctico + recomendaciones textuales
+
+**`/geo-seo-pro llmstxt <url>`:**
+1. Verificar `https://domain.com/llms.txt`
+2. Si existe: validar formato, evaluar cobertura, verificar headers y .well-known
+3. Si no existe: analizar estructura del sitio y generar llms.txt completo
+4. Verificar configuración robots.txt para crawlers IA
+5. Incluir advertencias de seguridad (CI/CD, monitorización de hash)
+6. Output: llms.txt generado (listo para desplegar) + diagnóstico de configuración IA
+
+**`/geo-seo-pro crawlers <url>`:**
+1. Fetch y parsear `/robots.txt`
+2. Evaluar acceso para los 12 crawlers IA (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Amazonbot, Bytespider, Google-Extended, CCBot, Applebot-Extended, FacebookBot, Cohere-ai)
+3. Detectar over-blocking o bloqueos accidentales
+4. Verificar sitemaps declarados
+5. Output: tabla de acceso por crawler + robots.txt corregido
+
+**`/geo-seo-pro content <url>`:**
+1. Extraer contenido textual de la página
+2. Evaluar contra las 5 estrategias Princeton (¿tiene citas? ¿datos? ¿expertos? ¿fluidez? ¿tono autoridad?)
+3. Detectar tácticas fallidas (keyword stuffing, simplificación extrema, relleno, lenguaje persuasivo)
+4. Recomendar reescritura de pasajes específicos
+5. Sugerir adiciones: datos estadísticos + fuentes + año, citas de expertos con nombre y cargo
+6. Output: análisis párrafo por párrafo + versiones mejoradas de pasajes clave
+
+**`/geo-seo-pro report <url>`:**
+1. Ejecutar análisis rápido de todas las dimensiones
+2. Consolidar en informe estructurado cliente-ready
+3. Incluir: Executive Summary, GEO-SEO Score, Score Breakdown, Key Findings, Prioritized Action Plan
+4. Output: `GEO-SEO-PRO-REPORT.md` listo para entregar a cliente
+
+---
+
+## Output Files
+
+| Comando | Archivo de Salida |
+|---------|-------------------|
+| `/geo-seo-pro audit` | `GEO-SEO-PRO-AUDIT-REPORT.md` |
+| `/geo-seo-pro seo-factors` | `GEO-SEO-FACTORS-CHECKLIST.md` |
+| `/geo-seo-pro core-web-vitals` | `GEO-SEO-CWV-ANALYSIS.md` |
+| `/geo-seo-pro e-e-a-t` | `GEO-SEO-EEAT-ASSESSMENT.md` |
+| `/geo-seo-pro schema` | `GEO-SEO-SCHEMA-REPORT.md` + `generated-schema.jsonld` |
+| `/geo-seo-pro geo` | `GEO-SEO-GEO-ANALYSIS.md` |
+| `/geo-seo-pro llmstxt` | `llms.txt` y `llms-full.txt` (listos para desplegar) |
+| `/geo-seo-pro crawlers` | `GEO-SEO-CRAWLER-ACCESS.md` + `robots.txt` corregido |
+| `/geo-seo-pro content` | `GEO-SEO-CONTENT-OPTIMIZATION.md` |
+| `/geo-seo-pro report` | `GEO-SEO-PRO-CLIENT-REPORT.md` |
+
+---
+
+## Fuentes de la Investigación
+
+1. **GEO: Generative Engine Optimization** — arXiv, https://arxiv.org/pdf/2311.09735
+2. **Generative Engine Optimization (GEO): The Definitive Guide [2026]** — GEOptie, https://geoptie.com/blog/generative-engine-optimization
+3. **Google's 200 Ranking Factors: The Complete List (2026)** — Backlinko, https://backlinko.com/google-ranking-factors
+4. **Essential Schema Structured Data for AI Search Optimisation** — LangSync, https://blog.langsync.ai/structured-data-for-ai-search/
+5. **LLMs.txt Guide: What It Does and Doesn't Do (2026)** — DerivateX, https://derivatex.agency/blog/llms-txt-guide/
+6. **Creating Helpful, Reliable, People-First Content** — Google Search Central, https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+7. **Understanding Core Web Vitals and Google search results** — Google, https://developers.google.com/search/docs/appearance/core-web-vitals
+8. **The Princeton GEO Paper in Plain English: 5 Tactics That Boost AI Citation by 40%** — DerivateX, https://derivatex.agency/blog/princeton-geo-paper-plain-english/
+9. **llms.txt and llms-full.txt** — Fern Documentation, https://buildwithfern.com/learn/docs/ai-features/llms-txt
+10. **Google's E-E-A-T** — Moz, https://moz.com/learn/seo/google-eat
