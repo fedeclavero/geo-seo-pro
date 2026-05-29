@@ -23,20 +23,136 @@ allowed-tools: Read, Bash, WebFetch, WebSearch, Write, Edit, Grep, Glob
 
 ---
 
+## 🚀 CÓMO USAR — Guía Interactiva (LEER PRIMERO)
+
+**No necesitás saber qué hacer.** Simplemente escribí `/geo-seo-pro` y esta skill te guiará paso a paso haciendo las preguntas justas. Es a prueba de principiantes.
+
+### Opción A: Empezar sin saber nada (recomendado)
+
+```
+/geo-seo-pro
+```
+
+La skill te preguntará:
+1. **¿Cuál es la URL de tu sitio?** → La analizamos
+2. **¿Qué querés mejorar?** → Elegí entre:
+   - 🔍 *Quiero un análisis completo de todo* → Auditoría SEO + GEO full
+   - 📈 *Quiero saber por qué no aparezco en ChatGPT/Perplexity/IA* → Análisis GEO + Princeton
+   - 🔧 *Quiero revisar mi SEO tradicional* → Checklist 128 factores
+   - ⚡ *Mi sitio va lento y Google me penaliza* → Core Web Vitals
+   - 🧠 *Quiero que la IA me cite como fuente* → Optimización contenido RAG
+   - 📝 *Quiero generar mi llms.txt* → Configuración crawlers + llms.txt
+   - 🏷️ *Quiero validar mi Schema JSON-LD* → Auditoría schema
+   - 📊 *Quiero un informe profesional para mi cliente* → Report completo
+
+### Opción B: Ir directo al grano
+
+Si ya sabés lo que necesitás:
+
+| Comando directo | Cuándo usarlo |
+|-----------------|---------------|
+| `/geo-seo-pro audit <url>` | "Quiero un chequeo completo de mi sitio" |
+| `/geo-seo-pro seo-factors <url>` | "Revisame los 128 factores de ranking" |
+| `/geo-seo-pro core-web-vitals <url>` | "Mi sitio carga lento, ¿qué arreglo?" |
+| `/geo-seo-pro e-e-a-t <url>` | "¿Google confía en mi contenido?" |
+| `/geo-seo-pro schema <url>` | "¿Mi sitio tiene datos estructurados?" |
+| `/geo-seo-pro geo <url>` | "Quiero aparecer en ChatGPT y Perplexity" |
+| `/geo-seo-pro llmstxt <url>` | "Necesito un llms.txt para IAs" |
+| `/geo-seo-pro crawlers <url>` | "¿Los bots de IA pueden ver mi sitio?" |
+| `/geo-seo-pro content <url>` | "Mejorame este contenido para IA" |
+| `/geo-seo-pro report <url>` | "Dame un informe completo para cliente" |
+
+### Opción C: Solo la URL
+
+```
+/geo-seo-pro https://misitio.com
+```
+
+Si pasás solo una URL sin subcomando, la skill automáticamente:
+1. Detecta qué tipo de sitio es (SaaS, tienda, blog, agencia...)
+2. Analiza la página principal
+3. Te presenta un resumen con los 5 problemas más graves encontrados
+4. Te sugiere qué análisis hacer a continuación
+
+---
+
 ## Quick Reference
 
-| Comando | Qué Hace |
-|---------|----------|
-| `/geo-seo-pro audit <url>` | Auditoría completa SEO + GEO (4 fases, scoring 0-100) |
-| `/geo-seo-pro seo-factors <url>` | Análisis exhaustivo de 128+ factores de ranking |
-| `/geo-seo-pro core-web-vitals <url>` | Análisis LCP/INP/CLS con recomendaciones quirúrgicas |
-| `/geo-seo-pro e-e-a-t <url>` | Evaluación E-E-A-T y Helpful Content (Who/How/Why) |
-| `/geo-seo-pro schema <url>` | Auditoría, validación y generación de JSON-LD |
-| `/geo-seo-pro geo <url>` | Análisis GEO puro: Princeton + citabilidad + RAG |
-| `/geo-seo-pro llmstxt <url>` | Generar o analizar llms.txt y llms-full.txt |
-| `/geo-seo-pro crawlers <url>` | Auditoría y configuración de acceso para crawlers IA |
-| `/geo-seo-pro content <url>` | Optimización de contenido para arquitecturas RAG |
-| `/geo-seo-pro report <url>` | Informe compuesto cliente-ready con plan de acción |
+---
+
+## 🤖 PROTOCOLO DE EJECUCIÓN INTERACTIVA (Para el Agente)
+
+**Cuando el usuario escriba `/geo-seo-pro` SIN argumentos, SIN subcomando y SIN URL, seguí este protocolo:**
+
+### Paso 1: Bienvenida
+
+```markdown
+# 🚀 GEO-SEO Pro
+
+Soy tu especialista en posicionamiento para buscadores tradicionales (Google) y
+motores de IA (ChatGPT, Perplexity, Gemini, Claude). Trabajo con un sistema de
+128+ factores de ranking, estudios científicos de Princeton, y estándares
+técnicos actualizados a 2026.
+
+**No necesitás saber nada de SEO ni GEO. Yo te guío.**
+```
+
+### Paso 2: Pedir la URL
+
+Usar `AskUserQuestion` para preguntar:
+
+```
+Pregunta: ¿Cuál es la URL de tu sitio web?
+Opciones: ["Escribir la URL manualmente"]
+```
+
+Si el usuario ya pasó una URL (ej. `/geo-seo-pro https://ejemplo.com`), saltar al Paso 3 directamente con esa URL.
+
+### Paso 3: Análisis rápido y pregunta de enfoque
+
+Hacer un fetch rápido de la homepage para detectar el tipo de sitio. Luego preguntar con `AskUserQuestion`:
+
+```
+Pregunta: ¿Qué querés hacer con <dominio>?
+Header: "Enfoque"
+Opciones:
+  - "🔍 Auditoría completa (SEO + GEO)" — Recomendado si es tu primera vez
+  - "📈 Aparecer en ChatGPT/Perplexity/IA" — Optimización GEO con Princeton
+  - "🔧 Revisar mi SEO tradicional" — Checklist de 128+ factores
+  - "⚡ Mi sitio va lento" — Core Web Vitals (LCP/INP/CLS)
+  - "🧠 Lograr que la IA me cite" — Contenido optimizado para RAG
+  - "📝 Configurar llms.txt y crawlers IA" — Interfaz para agentes
+  - "🏷️ Revisar Schema JSON-LD" — Datos estructurados
+  - "📊 Informe profesional para cliente" — Report completo
+```
+
+### Paso 4: Ejecutar el análisis
+
+Según la elección, ejecutar el protocolo correspondiente:
+
+- **Auditoría completa** → Protocolo en Parte 8.3
+- **Aparecer en ChatGPT/IA** → Protocolo en Parte 8.4: `/geo-seo-pro geo`
+- **Revisar SEO tradicional** → Protocolo en Parte 8.4: `/geo-seo-pro seo-factors`
+- **Mi sitio va lento** → Protocolo en Parte 8.4: `/geo-seo-pro core-web-vitals`
+- **Lograr que la IA me cite** → Protocolo en Parte 8.4: `/geo-seo-pro content`
+- **Configurar llms.txt** → Protocolo en Parte 8.4: `/geo-seo-pro llmstxt` + `/geo-seo-pro crawlers`
+- **Revisar Schema** → Protocolo en Parte 8.4: `/geo-seo-pro schema`
+- **Informe profesional** → Protocolo en Parte 8.4: `/geo-seo-pro report`
+
+### Paso 5: Preguntar si quiere más
+
+Al terminar cualquier análisis, siempre preguntar:
+
+```
+¿Querés que analice algo más de <dominio> o profundice en algún hallazgo?
+```
+
+### Reglas de oro del agente interactivo:
+- NUNCA asumas que el usuario sabe qué significan los términos técnicos. Explicá todo en lenguaje simple.
+- SIEMPRE mostrá un resumen de los hallazgos más graves primero.
+- SIEMPRE que termines un análisis, preguntá si quiere seguir con otro aspecto o profundizar.
+- NUNCA dejés al usuario sin opciones. Al final de cada respuesta, ofrecé los siguientes pasos.
+- SIEMPRE priorizá lo que más impacto tiene. No abrumes con 128 factores de una vez.
 
 ---
 

@@ -1,34 +1,35 @@
 # GEO-SEO Pro — Claude Code Skill
 
-**Generative Engine Optimization + SEO Tradicional — Habilidad Unificada para Claude Code**
-
-Skill completa y autocontenida que cubre CADA aspecto de la optimización para motores de búsqueda tradicionales y generativos. Basada en investigación académica de Princeton (GEO-bench, KDD 2024), documentación oficial de Google, y el ecosistema de IA conversacional.
+**Optimización completa para Google + ChatGPT + Perplexity + Gemini + Claude. Sin necesidad de saber SEO ni GEO.**
 
 ---
 
-## 🎯 Capacidades
+## 🎯 ¿Qué hace esto?
 
-| Área | Cobertura |
-|------|-----------|
-| **SEO Tradicional** | 128+ factores de ranking organizados en 8 categorías |
-| **Core Web Vitals** | LCP, INP, CLS — rangos, optimización quirúrgica, diagnóstico |
-| **E-E-A-T** | Experience, Expertise, Authoritativeness, Trustworthiness + Who/How/Why |
-| **Schema JSON-LD** | 7 esquemas clave + sameAs + riesgos de solapamiento |
-| **GEO + RAG** | Arquitectura RAG 3-capas, AEO vs GEO |
-| **Princeton GEO-bench** | 5 estrategias ganadoras (+25-40%), 4 tácticas fallidas, Underdog Effect |
-| **llms.txt** | Especificación completa, HTTP headers, .well-known |
-| **Crawlers IA** | Configuración robots.txt para 10+ crawlers (GPTBot, ClaudeBot, PerplexityBot...) |
-| **Seguridad** | Anti prompt-injection, CI/CD pipelines, hash monitoring |
+Esta skill convierte a Claude Code en tu especialista personal de posicionamiento web. Analiza tu sitio y te dice EXACTAMENTE qué hacer para:
+
+- ✅ Salir primero en Google
+- ✅ Que ChatGPT, Perplexity y Gemini citen tu web como fuente
+- ✅ Que tu sitio cargue rápido y no penalice
+- ✅ Que los bots de IA puedan leer tu contenido
+- ✅ Tener datos estructurados correctos (Schema JSON-LD)
+- ✅ Generar tu archivo llms.txt para agentes de IA
+
+**Basado en:** Investigación científica de Princeton (GEO-bench, KDD 2024), Google Search Central, y análisis de 128+ factores de ranking.
 
 ---
 
 ## 📦 Instalación
 
+### La manera fácil (recomendada)
+
 ```bash
 npx geo-seo-pro-install
 ```
 
-O manualmente:
+Listo. Ya podés usarlo en Claude Code.
+
+### Si no funciona npx
 
 ```bash
 git clone https://github.com/fedeclavero/geo-seo-pro.git
@@ -38,42 +39,68 @@ cp geo-seo-pro/SKILL.md ~/.claude/skills/geo-seo-pro/
 
 ---
 
-## 🚀 Uso en Claude Code
+## 🚀 Cómo usar (no necesitás saber nada)
+
+Abrí Claude Code y escribí:
 
 ```
-/geo-seo-pro audit <url>          — Auditoría completa SEO + GEO
-/geo-seo-pro seo-factors <url>    — Análisis de 128+ factores SEO
-/geo-seo-pro core-web-vitals <url> — Análisis LCP/INP/CLS
-/geo-seo-pro e-e-a-t <url>        — Evaluación E-E-A-T y Helpful Content
-/geo-seo-pro schema <url>         — Auditoría y generación JSON-LD
-/geo-seo-pro geo <url>            — Análisis GEO (Princeton + citabilidad)
-/geo-seo-pro llmstxt <url>        — Generar/analizar llms.txt
-/geo-seo-pro crawlers <url>       — Configurar acceso crawlers IA
-/geo-seo-pro content <url>        — Optimizar contenido para RAG
-/geo-seo-pro report <url>         — Informe completo cliente
+/geo-seo-pro
+```
+
+**La skill te va a guiar.** Te va a preguntar:
+1. La URL de tu sitio
+2. Qué querés mejorar
+
+Y te va a dar un análisis detallado con instrucciones paso a paso.
+
+---
+
+### Ejemplos de uso directo
+
+Si ya sabés lo que querés, podés ir directo:
+
+```bash
+# Análisis completo de TODO
+/geo-seo-pro audit https://misitio.com
+
+# Quiero aparecer en ChatGPT y Perplexity
+/geo-seo-pro geo https://misitio.com
+
+# Mi sitio carga lento
+/geo-seo-pro core-web-vitals https://misitio.com
+
+# ¿Google confía en mi contenido?
+/geo-seo-pro e-e-a-t https://misitio.com
+
+# Necesito mi archivo llms.txt para IAs
+/geo-seo-pro llmstxt https://misitio.com
+
+# Informe profesional completo
+/geo-seo-pro report https://misitio.com
 ```
 
 ---
 
-## 📚 Fuente de la Investigación
+## 📊 ¿Qué analiza?
 
-Esta skill se basa en el documento "Arquitectura de Optimización de Búsqueda de Siguiente Generación: Análisis Técnico Multidimensional de Parámetros SEO Tradicionales, AEO, GEO y Protocolos de Interfaz para Modelos de Lenguaje", que sintetiza:
-
-- Backlinko — Google's 200 Ranking Factors (2026)
-- Princeton University / Georgia Tech / Allen Institute for AI — GEO-bench (KDD 2024)
-- Google Search Central — Core Web Vitals, Helpful Content, E-E-A-T
-- DerivateX — llms.txt Guide, Princeton GEO Paper
-- LangSync — Schema Structured Data for AI Search
+| Categoría | ¿Qué revisa? |
+|-----------|--------------|
+| **SEO Tradicional** | 128+ factores: dominio, contenido, backlinks, técnica, interacción |
+| **Core Web Vitals** | Velocidad de carga (LCP), respuesta (INP), estabilidad visual (CLS) |
+| **E-E-A-T** | Experiencia real, credenciales, autoridad, confianza |
+| **Schema JSON-LD** | Datos estructurados para Google y ChatGPT |
+| **GEO + Princeton** | 5 estrategias científicas para ser citado por IA (+25-40% visibilidad) |
+| **Crawlers IA** | ¿Pueden GPTBot, ClaudeBot, PerplexityBot ver tu sitio? |
+| **llms.txt** | Archivo de interfaz para agentes de IA |
 
 ---
 
-## 🔒 Seguridad
+## 🔬 Basado en investigación real
 
-La skill incluye protocolos de:
-- Prevención de inyección indirecta de prompts en llms.txt
-- Gobernanza mediante pipelines CI/CD
-- Autenticación de acceso para documentación privada
-- Monitorización de integridad (hash MD5/SHA256)
+- **Princeton University + Georgia Tech + Allen Institute for AI** — GEO-bench (KDD 2024)
+- **Google Search Central** — Core Web Vitals, Helpful Content, E-E-A-T
+- **Backlinko** — Google's 200 Ranking Factors (2026)
+- **DerivateX** — llms.txt Guide, Princeton GEO Paper analysis
 
 ---
 
