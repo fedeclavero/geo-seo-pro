@@ -48,7 +48,6 @@ try {
   const scriptsDest = path.join(SKILL_DIR, 'scripts');
   if (fs.existsSync(scriptsSrc)) {
     copyDir(scriptsSrc, scriptsDest);
-    // Make Python scripts executable
     for (const f of fs.readdirSync(scriptsDest)) {
       if (f.endsWith('.py')) {
         fs.chmodSync(path.join(scriptsDest, f), 0o755);
@@ -56,6 +55,15 @@ try {
     }
     const count = fs.readdirSync(scriptsDest).filter(f => f.endsWith('.py')).length;
     console.log(`✅ ${count} measurement scripts installed`);
+  }
+
+  // Install templates
+  const templatesSrc = path.join(BASE_DIR, 'templates');
+  const templatesDest = path.join(SKILL_DIR, 'templates');
+  if (fs.existsSync(templatesSrc)) {
+    copyDir(templatesSrc, templatesDest);
+    const count = fs.readdirSync(templatesSrc).filter(f => f.endsWith('.json')).length;
+    console.log(`✅ ${count} JSON-LD templates installed`);
   }
 
   console.log('');

@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{NOMBRE_SOFTWARE}}",
+  "url": "{{URL_SITIO}}",
+  "applicationCategory": "{{CATEGORIA}}",
+  "operatingSystem": "Web, {{SISTEMAS_ADICIONALES}}",
+  "description": "{{DESCRIPCION_CORTA}}",
+  "offers": {
+    "@type": "Offer",
+    "price": "{{PRECIO_DESDE}}",
+    "priceCurrency": "{{MONEDA}}",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{RATING_PROMEDIO}}",
+    "reviewCount": "{{CANTIDAD_REVIEWS}}"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "{{NOMBRE_EMPRESA}}",
+    "url": "{{URL_SITIO}}"
+  },
+  "featureList": "{{LISTA_FEATURES}}",
+  "softwareVersion": "{{VERSION}}",
+  "datePublished": "{{FECHA_LANZAMIENTO}}"
+}

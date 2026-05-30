@@ -1,43 +1,44 @@
 ---
 name: geo-seo-pro-schema
-description: Sub-skill de auditoría y generación de Schema JSON-LD. Usa script real de detección.
-allowed-tools: Read, Bash, WebFetch, Write, Grep
+description: Detecta schemas faltantes y genera automáticamente JSON-LD listo para implementar.
+allowed-tools: Read, Bash, WebFetch, Write
 ---
 
-# Schema JSON-LD — Auditoría y Generación
+# Schema JSON-LD — Detectar y ARREGLAR
 
-**Usa código real para detectar schemas.** No alucina — extrae y valida.
+**No solo detecto. Genero el JSON-LD correcto para tu tipo de negocio.**
 
-## Ejecución
+## Flujo de Acción
 
-```bash
-python3 scripts/schema_checker.py <url>
-```
+1. Ejecutar `python3 scripts/schema_checker.py <url>` → detectar qué schemas existen y qué falta
+2. Ejecutar `python3 scripts/business_detector.py <url>` → determinar tipo de negocio
+3. Seleccionar template correcto de `templates/` según tipo
+4. Extraer datos del HTML (nombre empresa, logo, redes sociales, dirección, etc.)
+5. Rellenar el template con los datos extraídos
+6. Entregar el archivo `.jsonld` listo para que el usuario lo incruste en el `<head>`
 
-El script devuelve JSON con:
-- `jsonld_blocks_found`: Número de bloques JSON-LD en la página
-- `valid_blocks` / `invalid_blocks`
-- `schemas`: Lista de schemas detectados con validación de campos obligatorios
-- `conflicts`: Conflictos de solapamiento detectados
-- `schema_score`: 0-100
+## Mapeo Tipo de Negocio → Template
 
-## Esquemas Clave
+| Tipo | Template Principal | Templates Secundarios |
+|------|-------------------|----------------------|
+| SaaS | `software-saas.json` | `organization.json`, `faq-page.json`, `website-searchaction.json` |
+| Local Service | `local-business.json` | `organization.json`, `faq-page.json`, `website-searchaction.json` |
+| E-commerce | `product-ecommerce.json` | `organization.json`, `website-searchaction.json` |
+| Publisher | `article-author.json` | `organization.json`, `website-searchaction.json` |
+| Agency | `organization.json` | `website-searchaction.json`, `faq-page.json` |
+| Other | `organization.json` | `website-searchaction.json` |
 
-| Schema | Uso | Campos Obligatorios |
-|--------|-----|---------------------|
-| BlogPosting | Posts y artículos | mainEntityOfPage, author, publisher, datePublished, dateModified, image |
-| FAQPage | Preguntas frecuentes | mainEntity (texto debe coincidir con HTML visible) |
-| HowTo | Tutoriales paso a paso | name, step (solo para guías secuenciales prácticas) |
-| Organization | Identidad corporativa | name, sameAs (perfiles verificados) |
-| Person | Autoría | name, sameAs (LinkedIn, Wikipedia, académicas) |
-| Product | E-commerce | name (precios y stock actualizados) |
-| LocalBusiness | Negocio físico | name, address (debe coincidir con Google Business Profile) |
+## sameAs — Crítico para IA
 
-## Regla de Oro
-**Un solo schema primario por URL.** Múltiples schemas primarios (FAQPage + HowTo + Product en misma URL) diluyen la claridad semántica.
-
-## sameAs — La Señal Más Potente
-Conectar con Wikipedia, LinkedIn, Wikidata, GitHub, perfiles académicos. Wikipedia es la señal más fuerte para reconocimiento de entidades por IA.
+Para `Organization` y `Person`, los perfiles `sameAs` son LA señal más potente de autenticidad. Siempre incluir:
+- Wikipedia (si existe)
+- LinkedIn
+- Wikidata (si existe)
+- Twitter/X
+- GitHub (si es tech)
+- Google Scholar (si es académico)
 
 ## Output
-`GEO-SEO-SCHEMA-REPORT.md` + `generated-schema.jsonld` con esquemas corregidos o nuevos listos para implementar.
+
+- `generated-schema.jsonld` — archivo listo para copiar al `<head>`
+- Instrucciones de instalación (dónde pegarlo, cómo verificar en Rich Results Test)

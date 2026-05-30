@@ -1,0 +1,44 @@
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "{{URL_SITIO}}#localbusiness",
+  "name": "{{NOMBRE_NEGOCIO}}",
+  "url": "{{URL_SITIO}}",
+  "logo": "{{URL_LOGO}}",
+  "image": "{{URL_IMAGEN_NEGOCIO}}",
+  "description": "{{DESCRIPCION_CORTA}}",
+  "telephone": "{{TELEFONO}}",
+  "email": "{{EMAIL}}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{DIRECCION}}",
+    "addressLocality": "{{CIUDAD}}",
+    "addressRegion": "{{PROVINCIA}}",
+    "postalCode": "{{CODIGO_POSTAL}}",
+    "addressCountry": "{{PAIS}}"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "{{LATITUD}}",
+    "longitude": "{{LONGITUD}}"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+    ],
+    "opens": "{{HORA_APERTURA}}",
+    "closes": "{{HORA_CIERRE}}"
+  },
+  "priceRange": "{{RANGO_PRECIOS}}",
+  "areaServed": {
+    "@type": "City",
+    "name": "{{CIUDAD_SERVICIO}}"
+  },
+  "sameAs": [
+    "{{LINKEDIN}}",
+    "{{GOOGLE_BUSINESS_PROFILE}}",
+    "{{INSTAGRAM}}",
+    "{{FACEBOOK}}"
+  ]
+}

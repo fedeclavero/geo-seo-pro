@@ -1,0 +1,37 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{NOMBRE_EMPRESA}}",
+  "url": "{{URL_SITIO}}",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "{{URL_LOGO}}",
+    "width": 600,
+    "height": 60
+  },
+  "description": "{{DESCRIPCION_CORTA}}",
+  "foundingDate": "{{AÑO_FUNDACION}}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{DIRECCION}}",
+    "addressLocality": "{{CIUDAD}}",
+    "addressRegion": "{{PROVINCIA}}",
+    "postalCode": "{{CODIGO_POSTAL}}",
+    "addressCountry": "{{PAIS}}"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "telephone": "{{TELEFONO}}",
+    "email": "{{EMAIL}}",
+    "availableLanguage": ["Spanish"]
+  },
+  "sameAs": [
+    "{{LINKEDIN}}",
+    "{{TWITTER}}",
+    "{{YOUTUBE}}",
+    "{{INSTAGRAM}}",
+    "{{WIKIPEDIA}}",
+    "{{WIKIDATA}}"
+  ]
+}

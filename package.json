@@ -1,7 +1,7 @@
 {
   "name": "geo-seo-pro",
-  "version": "2.0.0",
-  "description": "GEO-SEO Pro — Herramienta de análisis de posicionamiento para Google y motores de IA (ChatGPT, Perplexity, Gemini, Claude). Ejecuta mediciones reales con PageSpeed Insights API, parseo de robots.txt, validación de llms.txt, detección de JSON-LD, y scoring GEO basado en Princeton GEO-bench. Arquitectura modular con scripts Python e informes PDF en español.",
+  "version": "3.0.0",
+  "description": "GEO-SEO Pro — Experto proactivo en posicionamiento para Google y motores de IA. NO solo audita: ACTÚA. Genera schemas JSON-LD, crea llms.txt, corrige robots.txt, reescribe contenido para GEO, optimiza Core Web Vitals, y produce PDF profesionales en español. Arquitectura modular con 8 scripts Python de medición real y 7 templates JSON-LD.",
   "main": "SKILL.md",
   "keywords": [
     "claude-code",
@@ -32,7 +32,8 @@
     "SKILL.md",
     "install.js",
     "skills/",
-    "scripts/"
+    "scripts/",
+    "templates/"
   ],
   "bin": {
     "geo-seo-pro-install": "install.js"

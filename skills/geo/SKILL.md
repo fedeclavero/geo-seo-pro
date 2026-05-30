@@ -1,48 +1,42 @@
 ---
 name: geo-seo-pro-geo
-description: Sub-skill de GEO: Princeton GEO-bench, RAG, citabilidad. Usa geo_scorer.py para medición real.
-allowed-tools: Read, Bash, WebFetch, WebSearch, Write, Grep
+description: Optimiza contenido para visibilidad en IA. No solo mide — reescribe pasajes aplicando estrategias de Princeton GEO-bench.
+allowed-tools: Read, Bash, WebFetch, WebSearch, Write, Edit, Grep
 ---
 
 # GEO — Generative Engine Optimization
 
-**Usa geo_scorer.py para medir contenido contra las estrategias de Princeton.**
+**REESCRIBO tu contenido para maximizar la probabilidad de ser citado por ChatGPT, Perplexity, Gemini y Claude.**
 
-## Ejecución
+## Flujo de Acción
 
-```bash
-python3 scripts/geo_scorer.py <url>
-```
+1. Ejecutar `python3 scripts/geo_scorer.py <url>` → obtener scores por estrategia
+2. Para cada pasaje con score bajo, aplicar la estrategia correspondiente
+3. Reescribir párrafos específicos con mejoras concretas
+4. Generar `GEO-SEO-CONTENT-FIX.md` con antes/después
 
-Devuelve JSON con scores reales (no estimados) para las 5 estrategias ganadoras y detección de las 4 tácticas fallidas.
+## Las 5 Estrategias — Cómo las Aplico
 
-## Las 5 Estrategias Ganadoras (Princeton GEO-bench, KDD 2024)
+| Estrategia | Si el score es bajo... | Acción concreta |
+|-----------|----------------------|-----------------|
+| **Citar Fuentes** (+40%) | < 60 puntos | Añadir 2-3 enlaces a fuentes autoritativas por cada afirmación clave |
+| **Datos Estadísticos** (+40%) | < 60 puntos | Sustituir descripciones genéricas por porcentajes, cifras y años concretos con fuente |
+| **Citas de Expertos** (+35%) | < 50 puntos | Insertar 1-2 citas textuales atribuidas (nombre + cargo + organización) |
+| **Fluidez** (+30%) | < 70 puntos | Variar longitud de oraciones, eliminar muletillas, mejorar transiciones |
+| **Tono de Autoridad** (+25%) | < 70 puntos | Reemplazar "podría", "quizás", "creo que" por afirmaciones directas |
 
-| # | Estrategia | Incremento | Qué Mide el Script |
-|---|-----------|------------|-------------------|
-| 1 | Citar Fuentes | +40% | URLs externas, marcadores de citación |
-| 2 | Datos Estadísticos | +40% | Porcentajes, años, datos numéricos, pares fuente+año |
-| 3 | Citas de Expertos | +35% | Citas directas con atribución, nombres, cargos |
-| 4 | Fluidez | +30% | Variedad de longitud de oraciones, fluidez sintáctica |
-| 5 | Tono de Autoridad | +25% | Marcadores de certeza vs. vacilación |
+## Tácticas que ELIMINO activamente
 
-## Las 4 Tácticas Fallidas
-
-| Táctica | Detección |
-|---------|-----------|
-| Keyword Stuffing | Densidad >2% de cualquier término |
-| Simplificación Extrema | Ratio de vocabulario único <15% |
-| Relleno de Contenido | Párrafos sin sustancia |
-| Lenguaje Persuasivo | Adjetivos promocionales >3 ocurrencias |
-
-## Efecto Underdog
-Los sitios con baja autoridad SEO tradicional obtienen el MAYOR beneficio proporcional en GEO al aplicar estas estrategias. Esto representa una ventana de oportunidad para sitios pequeños y medianos.
-
-## RAG — Cómo Funciona
-Los motores de IA usan arquitectura de 3 capas:
-1. Búsqueda semántica vectorial → recupera documentos candidatos
-2. Comprensión y filtrado del LLM → evalúa veracidad y autoridad
-3. Síntesis conversacional → decide qué fuentes citar con hipervínculos
+| Táctica | Si la detecto... |
+|---------|-----------------|
+| Keyword Stuffing | Reescribo para densidad natural (<2%) |
+| Simplificación Extrema | Restauro vocabulario técnico y jerga del sector |
+| Relleno | Elimino párrafos sin contenido y consolido |
+| Lenguaje Persuasivo | Reemplazo adjetivos comerciales por datos objetivos |
 
 ## Output
-`GEO-SEO-GEO-ANALYSIS.md` con GEO score 0-100, análisis párrafo por párrafo, y estrategias de mejora.
+
+`GEO-SEO-CONTENT-FIX.md` con:
+- Párrafo original → Párrafo optimizado (con cambios resaltados)
+- Score antes → Score estimado después
+- Justificación basada en Princeton GEO-bench
